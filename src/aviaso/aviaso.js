@@ -7,7 +7,8 @@ import Debug from "../util/debug";
 import { parseEmail } from "../util/email";
 
 export var config = {
-    'debug': true
+    'DEBUG': true,
+    'LOG_FILE': 'logs/debug.log'
 };
 
 export function init() {

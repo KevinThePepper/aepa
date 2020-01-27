@@ -1,5 +1,7 @@
 import { config } from "../aviaso/aviaso";
 
+// const fs = require('fs');
+
 const LEVEL_DEBUG = 'DEBUG';
 const LEVEL_INFO = 'INFO';
 const LEVEL_WARN = 'WARNING';
@@ -15,66 +17,34 @@ export default class Debug {
     /**
      * Prints a debug message to the console.
      * @param message The debug message.
-     * @param trace Whether or not to print a stack trace. Default is false.
      */
-    static debug(message, trace=false) {
-        if(config.debug) {
-            let cMessage = Debug.formattedMessage(message, LEVEL_DEBUG);
-            if (!trace) {
-                console.debug(cMessage);
-            } else {
-                console.trace(cMessage);
-            }
-        }
-    };
+    static debug(message) {
+        Debug.log(message, LEVEL_DEBUG)
+    }
 
     /**
      * Prints an info message to the console.
      * @param message The info message.
-     * @param trace Whether or not to print a stack trace. Default is false.
      */
-    static info(message, trace=false) {
-        if(config.debug) {
-            let cMessage = Debug.formattedMessage(message, LEVEL_INFO);
-            if (!trace) {
-                console.info(cMessage);
-            } else {
-                console.trace(cMessage);
-            }
-        }
-    };
+    static info(message) {
+        Debug.log(message, LEVEL_INFO)
+    }
 
     /**
      * Prints a warning message to the console.
      * @param message The warning message.
-     * @param trace Whether or not to print a stack trace. Default is false.
      */
-    static warn(message, trace=false) {
-        if(config.debug) {
-            let cMessage = Debug.formattedMessage(message, LEVEL_WARN);
-            if (!trace) {
-                console.warn(cMessage);
-            } else {
-                console.trace(cMessage);
-            }
-        }
-    };
+    static warn(message) {
+        Debug.log(message, LEVEL_WARN);
+    }
 
     /**
      * Prints an error message to the console.
      * @param message The error message.
-     * @param trace Whether or not to print a stack trace. Default is false.
      */
-    static error(message, trace=false) {
-        if(config.debug) {
-            let cMessage = Debug.formattedMessage(message, LEVEL_ERROR);
-            if (!trace) {
-                console.error(cMessage);
-            } else {
-                console.trace(cMessage);
-            }
-        }
-    };
+    static error(message) {
+        Debug.log(message, LEVEL_ERROR);
+    }
 
     /**
      * Returns a message formatted as:
@@ -86,5 +56,26 @@ export default class Debug {
     static formattedMessage(message, level) {
         const date = new Date().toISOString();
         return level + ' [' + date + '] - ' + message;
+    }
+
+    /**
+     * Prints a message with a specified log level to the console and as a new entry
+     * to the log file. If no log level is specified, the level defaults to 'INFO'
+     * @param message The debug message
+     * @param level The console log level, default is INFO
+     */
+    static log(message, level=LEVEL_INFO) {
+        let cMessage = Debug.formattedMessage(message, level);
+        // print to console if debugging is
+        if(config.DEBUG) {
+            console[level.toLocaleLowerCase()](cMessage);
+        }
+
+        // then print to the log file if the error level is above debug
+        /*
+        if(level !== LEVEL_DEBUG) {
+            fs.appendFileSync(config.LOG_FILE, cMessage);
+        }
+        */
     }
 }

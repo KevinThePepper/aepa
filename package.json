@@ -52,5 +52,8 @@
     "webpack-cli": "^3.3.8",
     "webpack-dev-server": "^3.8.0"
   },
-  "prettier": "office-addin-prettier-config"
+  "prettier": "office-addin-prettier-config",
+  "dependencies": {
+    "fs": "0.0.1-security"
+  }
 }
